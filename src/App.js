@@ -1,5 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
 import "./App.css";
+import appState from "./mobx/state";
+import { MobXCounter } from "./MobXCounter";
+import addReducer from "./redux/reducers";
+import ReduxCounter from "./ReduxCounter";
+
+const store = createStore(addReducer);
 
 function App() {
   const [todos, setTodos] = useState([]);
@@ -31,15 +39,11 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Todo app</h1>
-      <input
-        type="text"
-        value={todoTitle}
-        onChange={(e) => setTodoTitle(e.target.value)}
-        onKeyPress={addTodo}
-      />
-      <TodoList todos={todos} />
-    </div>
+      <Provider store={store}>
+        <ReduxCounter />
+      </Provider>
+      <MobXCounter appState={appState} />
+      </div>
   );
 }
 
