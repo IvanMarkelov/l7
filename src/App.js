@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, Route } from "react-router-dom";
 import "./App.css";
-import { Course } from "./components/Course";
 import { CourseMaterials } from "./components/CourseMaterials";
 import { CourseProjects } from "./components/CourseProjects";
 import { Feedback } from "./components/Feedback";
