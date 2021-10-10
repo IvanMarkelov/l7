@@ -17,6 +17,11 @@ export default class IssuesStore {
   issues = [];
   comments = [];
 
+  issueStateByNumber(number) {
+    const issueWithState = this.issues.find(i => i.number === number);
+    return issueWithState.state;
+  }
+
   getIssues = async () => {
     let res = await axios.get(
       "https://api.github.com/repos/IvanMarkelov/l7/issues?state=all",
@@ -89,6 +94,11 @@ export default class IssuesStore {
         },
       }
     );
+    const issue = this.issues.find((i) => i.number === number);
+    while (issue.body === this.issues.find((i) => i.number === number).body) {
+      await sleep(5000);
+      this.getIssues();
+    }
     console.log(response);
   };
 
@@ -164,6 +174,7 @@ export default class IssuesStore {
       this.getComments(
         `https://api.github.com/repos/IvanMarkelov/l7/issues/${number}/comments`
       );
+      this.getIssues();
     }
     console.log(response);
   };

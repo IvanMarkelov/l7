@@ -20,35 +20,40 @@ class ReplyComponent extends Component {
   };
 
   render() {
-    return (
-      <Form>
-        <Form.Group className="mb-3">
-          <Form.Label>Отправить комментарий:</Form.Label>
-          <Form.Control
-            onChange={(e) => this.setState({ replyText: e.target.value })}
-            as="textarea"
-            rows={3}
+    const state = this.props.store.issueStateByNumber(this.props.number);
+    if (state !== "closed") {
+      return (
+        <Form>
+          <Form.Group className="mb-3">
+            <Form.Label>Отправить комментарий:</Form.Label>
+            <Form.Control
+              onChange={(e) => this.setState({ replyText: e.target.value })}
+              as="textarea"
+              rows={3}
+            />
+          </Form.Group>
+          <Form.Check
+            type="checkbox"
+            defaultChecked={false}
+            onChange={() => {
+              this.setState({ willCloseIssue: !this.state.willCloseIssue });
+            }}
+            label="Закрыть обращение"
           />
-        </Form.Group>
-        <Form.Check
-          type="checkbox"
-          defaultChecked={false}
-          onChange={() => {
-            this.setState({ willCloseIssue: !this.state.willCloseIssue });
-          }}
-          label="Закрыть обращение"
-        />
-        <Button
-          style={{ margin: "3px" }}
-          onClick={() => {
-            this.handleAddComment();
-            this.props.closeForm();
-          }}
-        >
-          Добавить комментарий
-        </Button>
-      </Form>
-    );
+          <Button
+            style={{ margin: "3px" }}
+            onClick={() => {
+              this.handleAddComment();
+              this.props.closeForm();
+            }}
+          >
+            Добавить комментарий
+          </Button>
+        </Form>
+      );
+    } else {
+      return <h6>Обращение закрыто</h6>
+    }
   }
 }
 
