@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Container, ListGroup, ListGroupItem } from "react-bootstrap";
+import { Button, Card, Container, ListGroup, ListGroupItem } from "react-bootstrap";
 
 export const LessonProjects = ({ number, title, homework }) => {
   return (
@@ -17,7 +17,7 @@ export const LessonProjects = ({ number, title, homework }) => {
             <p>{taskDesc}</p>
             {taskLink && (
               <h6>
-                Решение: <a href={taskLink}>{taskLink}</a>
+                <Button href={taskLink}>Решение: {taskNumber}</Button>
               </h6>
             )}
           </ListGroupItem>
