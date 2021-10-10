@@ -14,23 +14,13 @@ class Comments extends Component {
       this.props.store.getComments(this.props.comments_url);
   }
 
-  componentDidMount() {
-    console.log(this.props.comments_url);
-    // this.props.store.getComments(this.props.comments_url);
-    // this.setState({ comments: this.props.store.comments });
-  }
-
-  componentDidUpdate() {
-    // this.props.comments_url && this.props.store.getComments(this.props.comments_url);
-  }
-
   render() {
     return (
       <div>
         {this.props.store.comments.map((c) => (
           <Comment key={c.id} commentId={c.id} commentBody={c.body} />
         ))}
-        <ReplyComponent store={this.props.store} number={this.props.number} />
+        <ReplyComponent closeForm={() => {}} store={this.props.store} number={this.props.number} />
       </div>
     );
   }

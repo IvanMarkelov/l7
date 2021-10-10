@@ -78,19 +78,18 @@ export default class IssuesMainComponent extends Component {
 export const SortListComponent = observer((props) => {
   return (
     <Form.Control
+      defaultValue="2"
       style={{ marginLeft: "10px", maxWidth: "30%" }}
       onChange={props.handleSelect}
       as="select"
       aria-label="Default select example"
     >
-      <option value="1">Сортировать по номеру: увеличение</option>
-      <option selected="selected" value="2">
-        Сортировать по номеру: убывание
-      </option>
+      <option value="1">Сортировать по номеру: возрастание</option>
+      <option value="2">Сортировать по номеру: убывание</option>
       <option value="3">Сортировать по названию: А-Я</option>
       <option value="4">Сортировать по названию: Я-А</option>
-      <option value="5">Сортировать по дате: последние</option>
-      <option value="6">Сортировать по дате: ранние</option>
+      <option value="5">Сортировать по дате: позже</option>
+      <option value="6">Сортировать по дате: раньше</option>
     </Form.Control>
   );
 });

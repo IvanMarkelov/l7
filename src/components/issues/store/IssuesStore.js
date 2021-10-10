@@ -7,8 +7,11 @@ import {
 } from "mobx";
 import axios from "axios";
 
-const token = "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";
-const authHeader = "token " + token;
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+const authHeader =
+  "token " + atob("Z2hwX2pWWDJaaDVsZTZFM0JobTlSSHZmejdWeHpxTGtHdDFhV0ZMbA==");
 
 export default class IssuesStore {
   issues = [];
@@ -16,7 +19,14 @@ export default class IssuesStore {
 
   getIssues = async () => {
     let res = await axios.get(
-      "https://api.github.com/repos/IvanMarkelov/l7/issues?state=all"
+      "https://api.github.com/repos/IvanMarkelov/l7/issues?state=all",
+      {
+        headers: {
+          Authorization: authHeader,
+          Accept: "application/vnd.github.v3+json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
     );
     console.log("getIssues", res.data);
     this.setIssues(res.data);
@@ -28,8 +38,15 @@ export default class IssuesStore {
 
   getComments = async (commentUrl) => {
     //const result = await request;
-    console.log("commentUrl", commentUrl);
-    let res = await axios.get(commentUrl);
+    console.log("getComments", commentUrl);
+    let res = await axios.get(commentUrl,
+      {
+        headers: {
+          Authorization: authHeader,
+          Accept: "application/vnd.github.v3+json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      });
     this.setComments(res.data);
   };
 
@@ -38,8 +55,7 @@ export default class IssuesStore {
   };
 
   constructor() {
-    makeAutoObservable(this, {
-    });
+    makeAutoObservable(this, {});
   }
 
   addIssue = async (issue) => {
@@ -54,8 +70,12 @@ export default class IssuesStore {
         },
       }
     );
+    const prevIssueNum = this.issues.length;
+    while (prevIssueNum === this.issues.length) {
+      await sleep(5000);
+      this.getIssues();
+    }
     console.log(response);
-    await this.getIssues();
   };
 
   updateBodyIssue = async (number, body) => {
@@ -85,6 +105,11 @@ export default class IssuesStore {
         },
       }
     );
+    const issue = this.issues.find(i => i.number === number);
+    while (issue.state === this.issues.find(i => i.number === number).state) {
+      await sleep(5000);
+      this.getIssues();
+    }
     console.log(response);
   };
 
@@ -130,6 +155,13 @@ export default class IssuesStore {
         },
       }
     );
+    const prevCommentsNum = this.comments.length;
+    while (prevCommentsNum === this.comments.length) {
+      await sleep(5000);
+      this.getComments(
+        `https://api.github.com/repos/IvanMarkelov/l7/issues/${number}/comments`
+      );
+    }
     console.log(response);
   };
 

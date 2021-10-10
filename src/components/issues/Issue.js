@@ -189,6 +189,7 @@ const Issue = (props) => {
         <Modal.Body style={{ display: "flex", flexDirection: "column" }}>
           <Card>{body}</Card>
           <Comments
+            closeForm={handleCloseIssueComments}
             store={props.store}
             number={number}
             comments_url={comments_url}

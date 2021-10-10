@@ -13,9 +13,6 @@ class ReplyComponent extends Component {
   }
 
   handleAddComment = () => {
-    console.log("add comment");
-    console.log(this.props.number);
-    console.log(this.state.replyText);
     this.props.store.createComment(this.props.number, this.state.replyText);
     if (this.state.willCloseIssue) {
       this.props.store.updateStateIssue(this.props.number, "closed");
