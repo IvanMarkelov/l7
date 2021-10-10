@@ -39,14 +39,13 @@ export default class IssuesStore {
   getComments = async (commentUrl) => {
     //const result = await request;
     console.log("getComments", commentUrl);
-    let res = await axios.get(commentUrl,
-      {
-        headers: {
-          Authorization: authHeader,
-          Accept: "application/vnd.github.v3+json",
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      });
+    let res = await axios.get(commentUrl, {
+      headers: {
+        Authorization: authHeader,
+        Accept: "application/vnd.github.v3+json",
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
     this.setComments(res.data);
   };
 
@@ -105,8 +104,13 @@ export default class IssuesStore {
         },
       }
     );
-    const issue = this.issues.find(i => i.number === number);
-    while (issue.state === this.issues.find(i => i.number === number).state) {
+    if (state === "closed") {
+      this.lockIssue(number);
+    } else if (state === "open") {
+      this.unlockIssue(number);
+    }
+    const issue = this.issues.find((i) => i.number === number);
+    while (issue.state === this.issues.find((i) => i.number === number).state) {
       await sleep(5000);
       this.getIssues();
     }
@@ -116,7 +120,7 @@ export default class IssuesStore {
   lockIssue = async (number) => {
     const response = await axios.put(
       `https://api.github.com/repos/IvanMarkelov/l7/issues/${number}/lock`,
-      { lock_reason: resolved },
+      { lock_reason: "resolved" },
       {
         headers: {
           Authorization: authHeader,
@@ -131,7 +135,6 @@ export default class IssuesStore {
   unlockIssue = async (number) => {
     const response = await axios.delete(
       `https://api.github.com/repos/IvanMarkelov/l7/issues/${number}/lock`,
-      { lock_reason: resolved },
       {
         headers: {
           Authorization: authHeader,
