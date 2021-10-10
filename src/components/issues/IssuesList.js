@@ -20,7 +20,17 @@ class IssuesList extends Component {
     const { store } = this.props;
     return (
       <>
-        <div className="issues" style={{display: "flex", flexWrap: "wrap", marginLeft: "10px"}}>
+        <div
+          className="issues"
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            margin: "20px",
+            gap: "25px",
+            alignContent: "space-between",
+            justifyContent: "space-between",
+          }}
+        >
           {store.issues.map((issue) => (
             <Issue key={issue.id} store={store} issue={issue} />
           ))}

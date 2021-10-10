@@ -82,7 +82,7 @@ const Issue = (props) => {
 
   return (
     <>
-      <Card
+      <Card border="danger"
         style={{
           padding: 4,
           width: 250,
