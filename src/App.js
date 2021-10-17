@@ -6,16 +6,14 @@ import appState from "./mobx/state";
 import { MobXCounter } from "./MobXCounter";
 import addReducer from "./redux/reducers";
 import ReduxCounter from "./ReduxCounter";
+import Issues from "./Issues";
 
 const store = createStore(addReducer);
 
 function App() {
   return (
     <div className="App">
-      <Provider store={store}>
-        <ReduxCounter />
-      </Provider>
-      <MobXCounter appState={appState} />
+      <Issues />
     </div>
   );
 }
