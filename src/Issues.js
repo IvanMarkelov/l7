@@ -6,7 +6,6 @@ export default class Issues extends Component {
     
         this.state = {
              issues: [],
-             error: "",
         }
     }
 
@@ -29,7 +28,7 @@ export default class Issues extends Component {
         return (
             <div>
                 <ul>
-                    {this.state.issues.map((issue) => <li>Обращение {issue.number}: {issue.name}</li>)}
+                    {this.state.issues.map((issue) => <li>Обращение {issue.number}: {issue.title}</li>)}
                 </ul>
             </div>
         )
